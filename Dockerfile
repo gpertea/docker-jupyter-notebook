@@ -10,7 +10,7 @@ ENV DEBIAN_FRONTEND noninteractive
 USER root
 
 RUN apt-get -qq update && apt-get install --no-install-recommends -y libcurl4-openssl-dev libxml2-dev \
-    apt-transport-https python-dev libc-dev pandoc pkg-config liblzma-dev libbz2-dev libpcre3-dev \
+    apt-transport-https python-dev libc-dev pandoc pkg-config liblzma-dev libbz2-dev libpcre3-dev nano \
     build-essential libblas-dev liblapack-dev gfortran libzmq3-dev libyaml-dev libxrender1 fonts-dejavu \
     libfreetype6-dev libpng-dev net-tools procps libreadline-dev wget software-properties-common octave \
     # IHaskell dependencies
@@ -31,6 +31,14 @@ RUN add-apt-repository -y  ppa:brightbox/ruby-ng && \
     ln -s /usr/bin/libtoolize /usr/bin/libtool && \
     apt-get purge -y software-properties-common && \
     apt-get autoremove -y && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+RUN gem install "rubygems-update:<3.0.0" --no-document
+
+RUN update_rubygems
+
+RUN gem install rmagick -v 2.16.0
+
+RUN gem install i18n -v 1.5.1
 
 RUN gem install --no-rdoc --no-ri rbczmq sciruby-full 
 
